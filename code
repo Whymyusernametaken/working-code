@@ -1,0 +1,50 @@
+def subsequence(array):
+
+    sub_array = _check_division(array)
+    result = []
+    saved = []
+    last = None
+    mark = 0
+    for i, e in enumerate(sub_array):
+        if last is None:
+            last = e
+            continue
+        elif not result:
+            if e < last:
+
+                result = [*sub_array[mark:i], e]
+            elif e > last:
+                mark = i
+        elif e < result[-1]:
+            if len(result) > len(saved):
+                saved = result
+            result = [*sub_array[mark:i], e]
+            last = e
+            continue
+        else:
+            if e > last:
+                mark = i
+            result.append(e)
+        last = e
+    return saved
+
+
+def _check_division(array):
+
+    sub_array = []
+    for i in range(len(array)):
+        n = 0
+        div = 2
+        while n <= 2 and div < (array[i]/2):
+            if array[i] % div:
+                n += 1
+            div += 1
+
+        if n <= 2:
+            sub_array.append(array[i])
+
+    return sub_array
+
+
+array = [8, 6, 7, 7, 3, 4, 5, 6, 6, 7, 2, 3, 4, 5, 3, 6, 6, 5, 6, 7, 7, 8, 9, 1]
+print(subsequence(array))
